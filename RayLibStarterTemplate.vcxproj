@@ -143,6 +143,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Vector2d.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Headers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Vector2d.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
