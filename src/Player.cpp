@@ -1,8 +1,8 @@
-﻿#include "Player.h"
-#include <src/Vector2d.h>
+﻿#include "Headers/Player.h"
+#include <Headers/Vector2d.h>
 #include <iostream>
 
-void Player::Draw()
+void Player::DrawPlayer()
 {
     //Make 3 vectors for each point in Triangle
     
@@ -15,7 +15,7 @@ void Player::Draw()
     v2.y += (v1.x - position.x)/2;
     v3.y -= (v1.x - position.x)/2;
 
-    DrawRectanglePro({position.x,position.y, size*2, size*2} , {size,size}, angle*180/PI + 45, shipColor);
+    DrawRectanglePro({position.x,position.y, size*2, size*2} , {size,size}, angle*180/PI + 45, mainColor);
     //DrawPoly({v1.x,v1.y}, 7, size*1.5f, angle*180/PI, WHITE);
     DrawTriangle({v1.x,v1.y},{v2.x,v2.y}, {v3.x,v3.y} , sailColor);
     DrawTriangle({v2.x,v2.y},{v1.x,v1.y}, {v3.x,v3.y} , sailColor);
@@ -46,40 +46,7 @@ void Player::CheckInput() // May use WASD or Arrow keys
     {
         angle -= turnSpeed * GetFrameTime();
     }
-    
-}
 
-void Player::Update()
-{
     direction.x = cos(angle);
     direction.y = sin(angle);
-    
-    //Add offset velocity
-    position = position.Add(velocity.Scale(GetFrameTime()));
-
-    //Player loses more speed the faster they're moving. 
-    velocity.x -= velocity.x * friction * GetFrameTime();
-    velocity.y -= velocity.y * friction * GetFrameTime();
-
-            if (GetScreenWidth() < position.x)
-            {
-                position.x = 0;
-            }
-            if (0 > position.x)
-            {
-                position.x = GetScreenWidth();
-            }
-            if (GetScreenHeight() < position.y)
-            {
-                position.y = 0;
-            }
-            if (0 > position.y)
-            {
-                position.y = GetScreenHeight();
-            }
-
-    windDirection = windDirection.Normalize();
-    velocity.x += windDirection.x * windStrength * GetFrameTime();
-    velocity.y += windDirection.y * windStrength * GetFrameTime();
-    
 }
