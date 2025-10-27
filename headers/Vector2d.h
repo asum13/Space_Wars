@@ -4,7 +4,8 @@ class Vector2d
 {
 public:
     
-    float x, y;
+    float x;
+    float y;
 
     Vector2d Add(Vector2d addedVector) // (x1,y1) + (x2, y2)
     ;

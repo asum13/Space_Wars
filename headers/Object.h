@@ -11,8 +11,11 @@ public:
     Vector2d velocity = {0,0};
 
     float size = 60.f;
-    float friction = 1.5f;
-    float borderOffset = 60.f;
+    float friction = 2.2f;
+    float speedCap = 1200.f;
+    float borderOffset = 45.f;
+
+    int objectType = 0; // 0: Iceberg, 1: Treasure, 2: Extra Life
 
     Color mainColor = PINK;
 
@@ -20,9 +23,11 @@ public:
 
     void DrawAsCircle();
 
-    void Update();
+    void UpdatePhysics();
 
     void Warp();
+
+    Vector2d Bounce(Object);
 
     bool CircleCollision(Object);
 };

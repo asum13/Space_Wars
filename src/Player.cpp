@@ -50,3 +50,36 @@ void Player::CheckInput() // May use WASD or Arrow keys
     direction.x = cos(angle);
     direction.y = sin(angle);
 }
+
+void Player::TakeDamage()
+{
+    if (invincibilityTime < 0)
+    {
+        lives -= 1;
+        invincibilityTime = 2.f;
+        
+        if (lives <= 0)
+        {
+            isAlive = false;
+            position = {100000, 100000}; // Player *Disappears*
+        }
+    }
+}
+
+void Player::UpdatePlayer()
+{
+    UpdatePhysics();
+    DrawPlayer();
+    CheckInput();
+    
+    invincibilityTime -= GetFrameTime();
+    if (invincibilityTime > 0)
+    {
+        mainColor = LIGHTGRAY;
+    }
+    else
+    {
+        mainColor = ORANGE;
+    }
+}
+

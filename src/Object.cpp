@@ -1,4 +1,7 @@
 ﻿#include "Headers/Object.h"
+#include <iostream>
+
+using namespace std;
 
 void Object::ApplyWind(Vector2d windDirection, float windStrength)
 {
@@ -34,15 +37,37 @@ void Object::Warp()
 }
 
 
-void Object::Update()
+void Object::UpdatePhysics()
 {
+    if (velocity.GetMagnitude() > speedCap)
+    {
+        velocity.Normalize();
+        velocity.Scale(speedCap);
+    }
+    
     velocity.x -= velocity.x * friction * GetFrameTime();
     velocity.y -= velocity.y * friction * GetFrameTime();
-
+    
     position = position.Add(velocity.Scale(GetFrameTime()));
 
     Warp();
 }
+
+Vector2d Object::Bounce(Object otherObject)
+{
+    Vector2d thisOffset;
+    Vector2d otherOffset;
+
+    float force = otherObject.velocity.Subtract(velocity).GetMagnitude();
+
+    thisOffset = position.Subtract(otherObject.position).Normalize().Scale(force);
+    otherOffset = otherObject.position.Subtract(position).Normalize().Scale(force);
+    
+    velocity = velocity.Add(thisOffset);
+
+    return otherOffset;
+}
+
 
 
 

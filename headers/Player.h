@@ -7,7 +7,7 @@ class Player: public Object
 {
 public:
     
-    float acceleration = 30.f; // Influences how fast velocity increases/decreases
+    float acceleration = 35.f; // Influences how fast velocity increases/decreases
     float turnSpeed = 3.f; //How fast player turns
 
     Vector2d windDirection = {-1,0};
@@ -26,5 +26,9 @@ public:
     void DrawPlayer();
 
     void CheckInput();
+
+    void TakeDamage();
+
+    void UpdatePlayer();
 };
 

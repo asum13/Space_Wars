@@ -13,29 +13,29 @@ Object SpawnIceberg(Vector2d windDirection)
 {
 	
 	Object iceberg;
-	if (windDirection.x == 1 && windDirection.y == 0)
+	float borderOffset = iceberg.borderOffset;
+	if (windDirection.x == 1)
 	{
-        iceberg.position.x = -60;
+        iceberg.position.x = -borderOffset;
 		iceberg.position.y = rand() % GetScreenHeight();
 	}
-	else if (windDirection.x == -1 && windDirection.y == 0)
+	else if (windDirection.x == -1)
 	{
-		iceberg.position.x = -GetScreenWidth() + 20;
-		iceberg.position.y = GetScreenHeight() / 2;
+		iceberg.position.x = GetScreenWidth() + borderOffset;
+		iceberg.position.y = rand() % GetScreenHeight();
 	}
-	else if (windDirection.x == 0 && windDirection.y == 1)
+	else if (windDirection.y == 1)
 	{
-		iceberg.position.x = GetScreenWidth() / 2;
-		iceberg.position.y = -20;
+		iceberg.position.x = rand() % GetScreenWidth();
+		iceberg.position.y = -borderOffset;
 	}
 	else
 	{
-		iceberg.position.x = GetScreenWidth() / 2;
-		iceberg.position.y = GetScreenHeight() + 20;
+		iceberg.position.x = rand() % GetScreenWidth();
+		iceberg.position.y = GetScreenHeight() + borderOffset;
 	}
 	int randomNum = rand() % 101;
-	iceberg.friction *= float(randomNum)/100.0f;
-	cout << iceberg.friction << endl;
+	iceberg.friction *= iceberg.friction / 3 + float(randomNum)/200.0f;
 	return iceberg;
 }
 
@@ -48,19 +48,28 @@ int main()
 
 	Color backgroundColor = { 0, 110, 200, 255 }; //Blue
 
+	srand(time(0));
+
 	Player player;
 	player.position = screenCenter;
+	player.acceleration = 55.f;
+	player.friction = 4.f;
+	player.turnSpeed = 3.f;
+	player.speedCap = 3000.f;
 	player.mainColor = ORANGE;
+
 
 
 	vector <Object> objects; // vector container not Vector2d
 
-	float windStrength = 1000.f;
-	Vector2d windDirection = { 1, 0 };
+	float windStrength = 800.f;
+	Vector2d windDirection = { 0, 0 };
 
 	float score = 0;
 	int scoreWhole = 0;
 	const char* scoreText;
+
+	float spawnTime = 0.f;
 	
 	InitWindow(screenWidth, screenHeight, "ScallyWars");
 
@@ -68,21 +77,38 @@ int main()
 	
 	while (!WindowShouldClose()) 
 	{
-		
-		
-		player.invincibilityTime -= GetFrameTime();
-		if (player.invincibilityTime > 0)
-		{
-			player.mainColor = LIGHTGRAY;
-		}
-		else
-		{
-			player.mainColor = ORANGE;
-		}
 
-		if (windDirection.GetMagnitude() == 1 && objects.size() < 6)
+		
+		if (windDirection.GetMagnitude() > 0 && objects.size() < 16 && spawnTime > 1)
 		{
 			objects.push_back(SpawnIceberg(windDirection));
+			spawnTime = 0;
+		}
+
+		
+		if (IsKeyDown(KEY_ESCAPE))
+		{
+			CloseWindow();
+		}
+		if (IsKeyDown(KEY_SPACE))
+		{
+			windDirection = {0,0};
+		}
+		if (IsKeyDown(KEY_J))
+		{
+			windDirection = {-1,0};
+		}
+		if (IsKeyDown(KEY_L))
+		{
+			windDirection = {1,0};
+		}
+		if (IsKeyDown(KEY_K))
+		{
+			windDirection = {0,1};
+		}
+		if (IsKeyDown(KEY_I))
+		{
+			windDirection = {0,-1};
 		}
 
 		
@@ -99,10 +125,8 @@ int main()
 
 		if (player.isAlive)
 		{
-			player.Update();
-			player.CheckInput();
+			player.UpdatePlayer();
 			player.ApplyWind(windDirection, windStrength);
-			player.DrawPlayer();
 			
 			score += 3 * GetFrameTime();
 		}
@@ -111,30 +135,25 @@ int main()
 		{
 			for (int i = 0; i < objects.size(); i++)
 			{
-				objects[i].Update();
+				objects[i].UpdatePhysics();
 				objects[i].ApplyWind(windDirection, windStrength);
 				objects[i].DrawAsCircle();
+				for (int j = i + 1; j < objects.size(); j++)
+				{
+					if (objects[i].CircleCollision(objects[j]))
+					{
+						objects[j].velocity = objects[i].Bounce(objects[j]);
+					}
+				}
 				if (objects[i].CircleCollision(player))
 				{
-					if (player.invincibilityTime < 0)
-					{
-						player.lives--;
-						if (player.lives > 0)
-						{
-							player.invincibilityTime = 2.f;
-							objects.erase(objects.begin() + i);
-						}
-						else
-						{
-							player.isAlive = false;
-							player.position = {100000, 100000}; // Player *Disappears*
-						}
-					}
+					player.velocity = objects[i].Bounce(player);
+					player.TakeDamage();
 				}
 			}
 		}
 
-		
+		spawnTime += GetFrameTime();
 		
 		//HUD Elements
 		DrawText(scoreText, 10, 10, 50, WHITE);
