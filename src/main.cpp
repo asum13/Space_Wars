@@ -156,8 +156,8 @@ int main()
 		spawnTime += GetFrameTime();
 		
 		//HUD Elements
-		DrawText(scoreText, 10, 10, 50, WHITE);
-		DrawText(livesText, 300, 10, 50, WHITE);
+		DrawText(scoreText, 10, 10, 50, YELLOW);
+		DrawText(livesText, 300, 10, 50, GREEN);
 		
 		EndDrawing();
 	}
