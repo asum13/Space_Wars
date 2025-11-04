@@ -9,7 +9,7 @@
 
 using namespace std;
 
-Object SpawnIceberg(Vector2d windDirection)
+Object SpawnIceberg(Vector2d windDirection) // Should put into a functions file
 {
 	
 	Object iceberg;
@@ -36,6 +36,7 @@ Object SpawnIceberg(Vector2d windDirection)
 	}
 	int randomNum = rand() % 101;
 	iceberg.friction *= iceberg.friction / 3 + float(randomNum)/200.0f;
+	iceberg.size *= 1.5;
 	return iceberg;
 }
 
@@ -52,8 +53,8 @@ int main()
 
 	Player player;
 	player.position = screenCenter;
-	player.acceleration = 55.f;
-	player.friction = 4.f;
+	player.acceleration = 20.f;
+	player.friction = 1.7f;
 	player.turnSpeed = 3.f;
 	player.speedCap = 3000.f;
 	player.mainColor = ORANGE;
@@ -62,7 +63,7 @@ int main()
 
 	vector <Object> objects; // vector container not Vector2d
 
-	float windStrength = 800.f;
+	float windStrength = 1500.f;
 	Vector2d windDirection = { 0, 0 };
 
 	float score = 0;
@@ -79,7 +80,7 @@ int main()
 	{
 
 		
-		if (windDirection.GetMagnitude() > 0 && objects.size() < 16 && spawnTime > 1)
+		if (windDirection.GetMagnitude() > 0 && objects.size() < 10 && spawnTime > 1)
 		{
 			objects.push_back(SpawnIceberg(windDirection));
 			spawnTime = 0;

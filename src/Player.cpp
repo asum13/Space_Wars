@@ -16,7 +16,6 @@ void Player::DrawPlayer()
     v3.y -= (v1.x - position.x)/2;
 
     DrawRectanglePro({position.x,position.y, size*2, size*2} , {size,size}, angle*180/PI + 45, mainColor);
-    //DrawPoly({v1.x,v1.y}, 7, size*1.5f, angle*180/PI, WHITE);
     DrawTriangle({v1.x,v1.y},{v2.x,v2.y}, {v3.x,v3.y} , sailColor);
     DrawTriangle({v2.x,v2.y},{v1.x,v1.y}, {v3.x,v3.y} , sailColor);
     

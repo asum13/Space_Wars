@@ -60,8 +60,8 @@ Vector2d Object::Bounce(Object otherObject)
 
     float force = otherObject.velocity.Subtract(velocity).GetMagnitude();
 
-    thisOffset = position.Subtract(otherObject.position).Normalize().Scale(force);
-    otherOffset = otherObject.position.Subtract(position).Normalize().Scale(force);
+    thisOffset = position.Subtract(otherObject.position).Normalize().Scale(force/otherObject.size * 60);
+    otherOffset = otherObject.position.Subtract(position).Normalize().Scale(force/size * 60);
     
     velocity = velocity.Add(thisOffset);
 
