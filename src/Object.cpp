@@ -18,21 +18,21 @@ void Object::DrawAsCircle()
 
 void Object::Warp()
 {
-    if (GetScreenWidth() + borderOffset < position.x)
+    if (GetScreenWidth() + size < position.x)
     {
-        position.x = - borderOffset;
+        position.x = - size;
     }
-    if (- borderOffset > position.x)
+    if (- size > position.x)
     {
-        position.x = GetScreenWidth() + borderOffset;
+        position.x = GetScreenWidth() + size;
     }
-    if (GetScreenHeight() + borderOffset < position.y)
+    if (GetScreenHeight() + size < position.y)
     {
-        position.y = -borderOffset;
+        position.y = -size;
     }
-    if (-borderOffset > position.y)
+    if (-size > position.y)
     {
-        position.y = GetScreenHeight() + borderOffset;
+        position.y = GetScreenHeight() + size;
     }
 }
 
@@ -73,6 +73,14 @@ Vector2d Object::Bounce(Object otherObject)
 
 bool Object::CircleCollision(Object targetObject)
 {
+    if (position.DistanceToTarget(targetObject.position) < (size + targetObject.size) * (3.f/4.f)) // Are the objects clipping?
+    {
+        Vector2d awayVector = position.Subtract(targetObject.position);
+        awayVector = awayVector.Scale(0.5f);
+        position = position.Add(awayVector);
+        return false;
+    }
+    
     if (position.DistanceToTarget(targetObject.position) < size + targetObject.size)
     {
         return true;
