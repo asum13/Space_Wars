@@ -142,12 +142,14 @@
     <None Include="Makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Functions.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Vector2d.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\Functions.h" />
     <ClInclude Include="headers\Object.h" />
     <ClInclude Include="headers\Player.h" />
     <ClInclude Include="headers\Vector2d.h" />
