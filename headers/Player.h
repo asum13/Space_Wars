@@ -14,7 +14,7 @@ public:
     float windStrength = 1500.f;
 
     float angle = 0.f;
-    Vector2d direction = { 1, 0 }; // Normalized Vector showing where the player is looking. should be {1,0} when angle = 0.
+    Vector2d direction = { 1, 0 }; // Normalized Vector showing where the player is looking. should be {1,0} at start.
 
     int lives = 3;
     float invincibilityTime = 0.f;

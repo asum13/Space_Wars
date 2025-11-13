@@ -88,6 +88,35 @@ Object SpawnObject(Vector2d spawnPoint, int objectType) // Should be put into a 
 	return spawnedObject;
 }
 
+Player SpawnPlayer(Vector2d spawnPoint)
+{
+	Player spawnedPlayer;
+	spawnedPlayer.position = spawnPoint;
+	spawnedPlayer.acceleration = 20.f;
+	spawnedPlayer.lives = 1;
+	spawnedPlayer.friction = 1.7f;
+	spawnedPlayer.turnSpeed = 3.f;
+	spawnedPlayer.speedCap = 3000.f;
+	spawnedPlayer.mainColor = ORANGE;
+	return spawnedPlayer;
+}
+
+const char* GetLossTitle(float score)
+{
+	if (score < 100.f)
+	{
+		return "Powder Monkey";
+	}
+	else if (score < 250.f)
+	{
+		return "Scallywag";
+	}
+	else
+	{
+		return "Captain";
+	}
+}
+
 
 
 int main()
@@ -118,12 +147,7 @@ int main()
 	
 
 	Player player;
-	player.position = screenCenter;
-	player.acceleration = 20.f;
-	player.friction = 1.7f;
-	player.turnSpeed = 3.f;
-	player.speedCap = 3000.f;
-	player.mainColor = ORANGE;
+	player = SpawnPlayer(screenCenter);
 	
 
 	vector <Object> objects; // vector container not Vector2d
@@ -159,6 +183,16 @@ int main()
 		if (IsKeyDown(KEY_ESCAPE))
 		{
 			CloseWindow();
+		}
+
+		if (player.isAlive == false && IsKeyDown(KEY_SPACE))
+		{
+			player = SpawnPlayer(screenCenter);
+			score = 0;
+			objects.clear();
+			targetWindStrength = 0;
+			currentWindStrength = 0;
+			spawnTime = 0;
 		}
 
 		// Remove before game release
@@ -202,7 +236,7 @@ int main()
 
 		//Player update
 		
-		if (player.lives > 0)
+		if (player.isAlive == true)
 		{
 			player.UpdatePlayer();
 			player.ApplyWind(windDirection, currentWindStrength);
@@ -261,32 +295,35 @@ int main()
 		}
 
 		spawnTime += GetFrameTime();
+
 		
 		//HUD Elements
-
-		scoreWhole = round(score);
 		
-		const char* scoreText = TextFormat("Score: %i ", scoreWhole);
-		const char* livesText = TextFormat("Lives: %i", player.lives);
-
-		if (player.lives <= 0)
+		if (player.isAlive == true)
 		{
-			const char* titleText = TextFormat("  You Crashed \n ScallyWag \nTotal Score: \n      %i", scoreWhole);
-			DrawText(titleText, screenWidth/8, screenHeight/4, 200, WHITE);
-		}
+			scoreWhole = round(score);
+			
+			const char* scoreText = TextFormat("Score: %i ", scoreWhole);
+			const char* livesText = TextFormat("Lives: %i", player.lives);
+			DrawText(scoreText, 10, 10, 50, YELLOW);
 
-		
-		DrawText(scoreText, 10, 10, 50, YELLOW);
-
-		if (player.invincibilityTime < 0)
-		{
-			DrawText(livesText, 300, 10, 50, GREEN);
+			if (player.invincibilityTime < 0)
+			{
+				DrawText(livesText, 300, 10, 50, GREEN);
+			}
+			else
+			{
+				DrawText(livesText, 295, 5, 60, PINK);
+			}
 		}
 		else
 		{
-			DrawText(livesText, 295, 5, 60, PINK);
+			const char* finalScoreText = TextFormat("Final Score: \n      %i", scoreWhole);
+			const char* youLoseText = TextFormat("You Crashed");
+			DrawText("You Crashed", screenWidth/5, (screenHeight/8)*1, 150, GREEN);
+			DrawText(GetLossTitle(score), screenWidth/6, (screenHeight/8)*2, 150, GREEN);
+			DrawText(finalScoreText, screenWidth/7, (screenHeight/8)*4, 200, YELLOW);
 		}
-		
 		
 		EndDrawing();
 	}
