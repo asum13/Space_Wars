@@ -13,3 +13,4 @@ Object SpawnObject(Vector2d spawnPoint, int objectType);
 
 Player SpawnPlayer(Vector2d spawnPoint);
 
+const char* GetLossTitle(float score);

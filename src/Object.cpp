@@ -39,11 +39,16 @@ void Object::Warp()
 
 void Object::UpdatePhysics()
 {
-    if (velocity.GetMagnitude() > speedCap)
+    float magnitude = velocity.GetMagnitude();
+    if (magnitude > speedCap)
     {
         velocity.Normalize();
         velocity.Scale(speedCap);
     }
+
+    // magnitude -= friction * GetFrameTime();
+    //
+    // velocity.Scale(magnitude);
     
     velocity.x -= velocity.x * friction * GetFrameTime();
     velocity.y -= velocity.y * friction * GetFrameTime();
@@ -60,8 +65,8 @@ Vector2d Object::Bounce(Object otherObject)
 
     float force = otherObject.velocity.Subtract(velocity).GetMagnitude();
 
-    thisOffset = position.Subtract(otherObject.position).Normalize().Scale(force/otherObject.size * 60);
-    otherOffset = otherObject.position.Subtract(position).Normalize().Scale(force/size * 60);
+    thisOffset = position.Subtract(otherObject.position).Normalize().Scale(force);
+    otherOffset = otherObject.position.Subtract(position).Normalize().Scale(force);
     
     velocity = velocity.Add(thisOffset);
 

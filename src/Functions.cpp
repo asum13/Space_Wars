@@ -80,7 +80,7 @@ Object SpawnObject(Vector2d spawnPoint, int objectType) // Should be put into a 
 	
     int randomNum = rand() % 101;
     spawnedObject.friction *= spawnedObject.friction / 3 + float(randomNum)/200.0f;
-    spawnedObject.size *= 1.5;
+    //spawnedObject.size *= 1.5;
     return spawnedObject;
 }
 
@@ -89,10 +89,31 @@ Player SpawnPlayer(Vector2d spawnPoint)
     Player spawnedPlayer;
     spawnedPlayer.position = spawnPoint;
     spawnedPlayer.acceleration = 20.f;
-    spawnedPlayer.lives = 1;
-    spawnedPlayer.friction = 1.7f;
-    spawnedPlayer.turnSpeed = 3.f;
+    spawnedPlayer.size = 40.f;
+    spawnedPlayer.lives = 3;
+    spawnedPlayer.friction = 3.f;
+    spawnedPlayer.turnSpeed = 2.f;
     spawnedPlayer.speedCap = 3000.f;
     spawnedPlayer.mainColor = ORANGE;
     return spawnedPlayer;
+}
+
+const char* GetLossTitle(float score)
+{
+    if (score < 100.f)
+    {
+        return "Powder Monkey";
+    }
+    else if (score < 250.f)
+    {
+        return "  Scoundrel";
+    }
+    else if (score < 400.f)
+    {
+        return "  Scallywag";
+    }
+    else
+    {
+        return "   Captain";
+    }
 }

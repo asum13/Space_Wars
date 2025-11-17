@@ -11,8 +11,8 @@ public:
     Vector2d velocity = {0,0};
 
     float size = 60.f;
-    float friction = 2.2f;
-    float speedCap = 2000.f;
+    float friction = 1.8f;
+    float speedCap = 1500.f;
     float borderOffset = 45.f;
 
     int objectType = 0; // 0: Iceberg, 1: Treasure, 2: Extra Life

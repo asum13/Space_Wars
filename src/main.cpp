@@ -10,24 +10,6 @@
 
 using namespace std;
 
-const char* GetLossTitle(float score)
-{
-	if (score < 100.f)
-	{
-		return "Powder Monkey";
-	}
-	else if (score < 250.f)
-	{
-		return "Scallywag";
-	}
-	else
-	{
-		return "Captain";
-	}
-}
-
-
-
 int main()
 {
 	srand(time(0));
@@ -53,8 +35,6 @@ int main()
 
 	const char* titleText = "";
 
-	
-
 	Player player;
 	player = SpawnPlayer(screenCenter);
 	
@@ -76,13 +56,13 @@ int main()
 		else
 		{
 			currentWindStrength = 0;
-			targetWindStrength = (1000.f + score * 4);
+			targetWindStrength = (1000.f + sqrtf(score) * 60);
 			windDirection = RandomDirection();
 		}
 		
-		if (windDirection.GetMagnitude() > 0 && currentWindStrength >= 400.f && objects.size() < 10 && spawnTime > 1)
+		if (windDirection.GetMagnitude() > 0 && currentWindStrength >= 400.f && objects.size() < score/50 + 8 && spawnTime > 3)
 		{
-			Object spawnedIceberg = (SpawnObject(RandomizeSpawnPoint(windDirection, 90.f), 0));
+			Object spawnedIceberg = (SpawnObject(RandomizeSpawnPoint(windDirection, 90.f), rand() % 3));
 			objects.push_back(spawnedIceberg);
 			
 			spawnTime = 0;
@@ -184,20 +164,14 @@ int main()
 					
 					else if (objects[i].objectType == 1) // Treasure
 					{
-						score += 100;
-						objects[i].objectType = 0;
-						objects[i].mainColor = PINK;
-						objects[i].position = RandomizeSpawnPoint(windDirection, 90.f);
-						objects[i].velocity = {0,0};
+						score += 50;
+						objects[i] = SpawnObject(RandomizeSpawnPoint(windDirection, 90.f), 0);
 					}
 
 					else if (objects[i].objectType == 2) // Extra Life
 					{
 						player.lives += 1;
-						objects[i].objectType = 0;
-						objects[i].mainColor = PINK;
-						objects[i].position = RandomizeSpawnPoint(windDirection, 90.f);
-						objects[i].velocity = {0,0};
+						objects[i] = SpawnObject(RandomizeSpawnPoint(windDirection, 90.f), 0);
 					}
 				}
 			}
@@ -230,7 +204,7 @@ int main()
 			const char* finalScoreText = TextFormat("Final Score: \n      %i", scoreWhole);
 			const char* youLoseText = TextFormat("You Crashed");
 			DrawText("You Crashed", screenWidth/5, (screenHeight/8)*1, 150, GREEN);
-			DrawText(GetLossTitle(score), screenWidth/6, (screenHeight/8)*2, 150, GREEN);
+			DrawText(GetLossTitle(score), screenWidth/6, (screenHeight/8)*2, 150, MAROON);
 			DrawText(finalScoreText, screenWidth/7, (screenHeight/8)*4, 200, YELLOW);
 		}
 		

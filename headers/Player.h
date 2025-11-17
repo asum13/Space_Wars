@@ -17,7 +17,7 @@ public:
     Vector2d direction = { 1, 0 }; // Normalized Vector showing where the player is looking. should be {1,0} at start.
 
     int lives = 3;
-    float invincibilityTime = 0.f;
+    float invincibilityTime = -0.1f;
     
     Color sailColor = WHITE;
 
@@ -26,6 +26,8 @@ public:
     void DrawPlayer();
 
     void CheckInput();
+
+    void TurnToTarget(Vector2d target);
 
     void TakeDamage();
 

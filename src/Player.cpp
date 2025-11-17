@@ -2,6 +2,8 @@
 #include <Headers/Vector2d.h>
 #include <iostream>
 
+using namespace std;
+
 void Player::DrawPlayer()
 {
     //Make 3 vectors for each point in Triangle
@@ -48,6 +50,15 @@ void Player::CheckInput() // May use WASD or Arrow keys
 
     direction.x = cos(angle);
     direction.y = sin(angle);
+}
+
+void Player::TurnToTarget(Vector2d target)
+{
+    Vector2d targetDirection = position.Subtract(target);
+    targetDirection = targetDirection.Normalize();
+    cout << targetDirection.x << endl;
+    direction = direction.Subtract(targetDirection);
+    direction = direction.Normalize();
 }
 
 void Player::TakeDamage()
