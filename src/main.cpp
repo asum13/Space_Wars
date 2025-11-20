@@ -20,6 +20,8 @@ int main()
 
 	Color backgroundColor = { 0, 110, 200, 255 }; //Blue, but like nicer
 
+	//Variable Declarations
+	
 	float currentWindStrength = 0.f;
 	float targetWindStrength = 0.f;
 	float windTime = 10.f;
@@ -40,7 +42,8 @@ int main()
 	
 
 	vector <Object> objects; // vector container not Vector2d
-	
+
+	// Game loop starts
 	
 	InitWindow(screenWidth, screenHeight, "ScallyWars");
 
@@ -62,8 +65,8 @@ int main()
 		
 		if (windDirection.GetMagnitude() > 0 && currentWindStrength >= 400.f && objects.size() < score/50 + 8 && spawnTime > 3)
 		{
-			Object spawnedIceberg = (SpawnObject(RandomizeSpawnPoint(windDirection, 90.f), rand() % 3));
-			objects.push_back(spawnedIceberg);
+			Object spawnedObject = (SpawnObject(RandomizeSpawnPoint(windDirection, 90.f), rand() % 3));
+			objects.push_back(spawnedObject);
 			
 			spawnTime = 0;
 		}
@@ -203,9 +206,10 @@ int main()
 		{
 			const char* finalScoreText = TextFormat("Final Score: \n      %i", scoreWhole);
 			const char* youLoseText = TextFormat("You Crashed");
-			DrawText("You Crashed", screenWidth/5, (screenHeight/8)*1, 150, GREEN);
+			DrawText("You Crashed", screenWidth/5, (screenHeight/8)*1, 150, BLACK);
 			DrawText(GetLossTitle(score), screenWidth/6, (screenHeight/8)*2, 150, MAROON);
-			DrawText(finalScoreText, screenWidth/7, (screenHeight/8)*4, 200, YELLOW);
+			DrawText(finalScoreText, screenWidth/7, (screenHeight/8)*3, 200, YELLOW);
+			DrawText("Press Space to Restart", screenWidth/6, (screenHeight/8)*6, 100, WHITE);
 		}
 		
 		EndDrawing();

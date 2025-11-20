@@ -12,7 +12,7 @@ public:
 
     float size = 60.f;
     float friction = 1.8f;
-    float speedCap = 1500.f;
+    float speedCap = 1200.f;
     float borderOffset = 45.f;
 
     int objectType = 0; // 0: Iceberg, 1: Treasure, 2: Extra Life

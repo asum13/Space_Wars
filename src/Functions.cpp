@@ -54,7 +54,7 @@ Vector2d RandomDirection()
     }
 }
 
-Object SpawnObject(Vector2d spawnPoint, int objectType) // Should be put into a functions file
+Object SpawnObject(Vector2d spawnPoint, int objectType)
 {
 	
     Object spawnedObject;
@@ -64,6 +64,7 @@ Object SpawnObject(Vector2d spawnPoint, int objectType) // Should be put into a 
     {
         spawnedObject.mainColor = PINK;
         spawnedObject.size = 60.f;
+        
     }
     if (objectType == 1)
     {
@@ -79,8 +80,7 @@ Object SpawnObject(Vector2d spawnPoint, int objectType) // Should be put into a 
     spawnedObject.position = spawnPoint;
 	
     int randomNum = rand() % 101;
-    spawnedObject.friction *= spawnedObject.friction / 3 + float(randomNum)/200.0f;
-    //spawnedObject.size *= 1.5;
+    spawnedObject.friction *= (spawnedObject.friction / 3 + float(randomNum)/200.0f); // Objects randomly get higher and smaller friction making them move at differents speeds.
     return spawnedObject;
 }
 
@@ -88,7 +88,7 @@ Player SpawnPlayer(Vector2d spawnPoint)
 {
     Player spawnedPlayer;
     spawnedPlayer.position = spawnPoint;
-    spawnedPlayer.acceleration = 20.f;
+    spawnedPlayer.acceleration = 25.f;
     spawnedPlayer.size = 40.f;
     spawnedPlayer.lives = 3;
     spawnedPlayer.friction = 3.f;
@@ -108,12 +108,16 @@ const char* GetLossTitle(float score)
     {
         return "  Scoundrel";
     }
-    else if (score < 400.f)
+    else if (score < 500.f)
     {
         return "  Scallywag";
     }
+    else if (score < 1000.f)
+    {
+        return "    Captain";
+    }
     else
     {
-        return "   Captain";
+        return "    Legend";
     }
 }

@@ -6,9 +6,10 @@
 class Player: public Object
 {
 public:
+    // Player variable values are decided in the SpawnPlayer function not here
     
     float acceleration = 35.f; // Influences how fast velocity increases/decreases
-    float turnSpeed = 3.f; //How fast player turns
+    float turnSpeed = 3.f; 
 
     Vector2d windDirection = {-1,0};
     float windStrength = 1500.f;
