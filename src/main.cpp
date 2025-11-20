@@ -13,14 +13,16 @@ using namespace std;
 int main()
 {
 	srand(time(0));
+	
+
+	//Variable Declarations
+
 	const int screenWidth = 1920;
 	const int screenHeight = 1080;
 
 	Vector2d screenCenter = {screenWidth/2, screenHeight/2};
 
 	Color backgroundColor = { 0, 110, 200, 255 }; //Blue, but like nicer
-
-	//Variable Declarations
 	
 	float currentWindStrength = 0.f;
 	float targetWindStrength = 0.f;
@@ -40,10 +42,9 @@ int main()
 	Player player;
 	player = SpawnPlayer(screenCenter);
 	
-
 	vector <Object> objects; // vector container not Vector2d
 
-	// Game loop starts
+	
 	
 	InitWindow(screenWidth, screenHeight, "ScallyWars");
 

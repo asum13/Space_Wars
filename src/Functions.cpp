@@ -116,8 +116,12 @@ const char* GetLossTitle(float score)
     {
         return "    Captain";
     }
-    else
+    else if (score < 5000.f)
     {
         return "    Legend";
+    }
+    else
+    {
+        return "    Cheater";
     }
 }
