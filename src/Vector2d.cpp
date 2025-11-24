@@ -25,7 +25,7 @@ Vector2d Vector2d::Scale(float scale)
 float Vector2d::GetMagnitude()
 {
     float magnitudeSquared = x * x + y * y;
-    float magnitude = sqrtf(magnitudeSquared);
+    float magnitude = sqrtf(magnitudeSquared); //Pythagorean Theorem baby
     return magnitude;
 }
 

@@ -6,7 +6,7 @@ using namespace std;
 
 void Player::DrawPlayer()
 {
-    //Make 3 vectors for each point in Triangle
+    //3 vectors for each point in Triangle
     
     Vector2d v1 = {position.Add(direction.Scale(size)).x, position.Add(direction.Scale(size)).y};
     
@@ -52,7 +52,7 @@ void Player::CheckInput() // May use WASD or Arrow keys
     direction.y = sin(angle);
 }
 
-void Player::TurnToTarget(Vector2d target)
+void Player::TurnToTarget(Vector2d target) // Unused code
 {
     Vector2d targetDirection = position.Subtract(target);
     targetDirection = targetDirection.Normalize();

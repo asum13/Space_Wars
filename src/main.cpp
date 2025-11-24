@@ -14,12 +14,10 @@ int main()
 {
 	srand(time(0));
 	
-
 	//Variable Declarations
 
 	const int screenWidth = 1920;
 	const int screenHeight = 1080;
-
 	Vector2d screenCenter = {screenWidth/2, screenHeight/2};
 
 	Color backgroundColor = { 0, 110, 200, 255 }; //Blue, but like nicer
@@ -27,12 +25,9 @@ int main()
 	float currentWindStrength = 0.f;
 	float targetWindStrength = 0.f;
 	float windTime = 10.f;
-
-	
 	Vector2d windDirection = { 0, 0 };
 
 	float spawnTime = 0.f;
-	
 
 	float score = 0.f;
 	int scoreWhole = 0;
@@ -64,9 +59,16 @@ int main()
 			windDirection = RandomDirection();
 		}
 		
-		if (windDirection.GetMagnitude() > 0 && currentWindStrength >= 400.f && objects.size() < score/50 + 8 && spawnTime > 3)
+		
+		if (windDirection.GetMagnitude() > 0 && currentWindStrength >= 400.f && objects.size() < score/50 + 8 && spawnTime > 2.f)
 		{
-			Object spawnedObject = (SpawnObject(RandomizeSpawnPoint(windDirection, 90.f), rand() % 3));
+			// 16% for treasure and extra life. 66% for Iceberg
+			int randomNum = rand() % 6 + 1; // 1 - 6
+			if (randomNum > 2)
+			{
+				randomNum = 0;
+			}
+			Object spawnedObject = (SpawnObject(RandomizeSpawnPoint(windDirection, 90.f), randomNum));
 			objects.push_back(spawnedObject);
 			
 			spawnTime = 0;
@@ -87,40 +89,8 @@ int main()
 			currentWindStrength = 0;
 			spawnTime = 0;
 		}
-
-		// Remove before game release
-
-
-		if (IsKeyPressed(KEY_B))
-		{
-			windDirection = RandomDirection();
-		}
-		
-		if (IsKeyDown(KEY_SPACE))
-		{
-			windDirection = {0,0};
-		}
-		if (IsKeyDown(KEY_J))
-		{
-			windDirection = {-1,0};
-		}
-		if (IsKeyDown(KEY_L))
-		{
-			windDirection = {1,0};
-		}
-		if (IsKeyDown(KEY_K))
-		{
-			windDirection = {0,1};
-		}
-		if (IsKeyDown(KEY_I))
-		{
-			windDirection = {0,-1};
-		}
-
 		
 		
-		
-
 		//Begin Drawing
 		
 		BeginDrawing();
@@ -205,11 +175,14 @@ int main()
 		}
 		else
 		{
-			const char* finalScoreText = TextFormat("Final Score: \n      %i", scoreWhole);
-			const char* youLoseText = TextFormat("You Crashed");
+			const char* finalScoreText = TextFormat("Final Score: \n    %i", scoreWhole);
+			
 			DrawText("You Crashed", screenWidth/5, (screenHeight/8)*1, 150, BLACK);
+			
 			DrawText(GetLossTitle(score), screenWidth/6, (screenHeight/8)*2, 150, MAROON);
+			
 			DrawText(finalScoreText, screenWidth/7, (screenHeight/8)*3, 200, YELLOW);
+			
 			DrawText("Press Space to Restart", screenWidth/6, (screenHeight/8)*6, 100, WHITE);
 		}
 		

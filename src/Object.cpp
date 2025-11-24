@@ -44,12 +44,13 @@ void Object::UpdatePhysics()
     float magnitude = velocity.GetMagnitude();
     if (magnitude > speedCap)
     {
-        velocity = velocity.Normalize();
-        velocity = velocity.Scale(speedCap);
+        magnitude = speedCap;
     }
     
-    velocity.x -= velocity.x * friction * GetFrameTime();
-    velocity.y -= velocity.y * friction * GetFrameTime();
+    magnitude = magnitude - magnitude * friction * GetFrameTime(); // Apply Friction
+    
+    velocity = velocity.Normalize();
+    velocity = velocity.Scale(magnitude);
     
     position = position.Add(velocity.Scale(GetFrameTime()));
 }

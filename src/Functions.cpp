@@ -9,22 +9,22 @@ Vector2d RandomizeSpawnPoint(Vector2d windDirection, float borderOffset)
 {
     Vector2d spawnPoint;
 	
-    if (windDirection.x == 1)
+    if (windDirection.x == 1) // East
     {
         spawnPoint.x = -borderOffset;
         spawnPoint.y = rand() % GetScreenHeight();
     }
-    else if (windDirection.x == -1)
+    else if (windDirection.x == -1) // West
     {
         spawnPoint.x = GetScreenWidth() + borderOffset;
         spawnPoint.y = rand() % GetScreenHeight();
     }
-    else if (windDirection.y == 1)
+    else if (windDirection.y == 1) // South
     {
         spawnPoint.x = rand() % GetScreenWidth();
         spawnPoint.y = -borderOffset;
     }
-    else
+    else // North, defaults to this
     {
         spawnPoint.x = rand() % GetScreenWidth();
         spawnPoint.y = GetScreenHeight() + borderOffset;
@@ -35,7 +35,7 @@ Vector2d RandomizeSpawnPoint(Vector2d windDirection, float borderOffset)
 
 Vector2d RandomDirection()
 {
-    int randomNum = rand() % 4;
+    int randomNum = rand() % 4; // 0 - 3
     if (randomNum == 0)
     {
         return {1,0};
@@ -60,18 +60,18 @@ Object SpawnObject(Vector2d spawnPoint, int objectType)
     Object spawnedObject;
     spawnedObject.objectType = objectType;
 
-    if (objectType == 0)
+    if (objectType == 0) // Iceberg
     {
         spawnedObject.mainColor = PINK;
         spawnedObject.size = 60.f;
         
     }
-    if (objectType == 1)
+    if (objectType == 1) // Treasure
     {
         spawnedObject.mainColor = YELLOW;
         spawnedObject.size = 45.f;
     }
-    else if (objectType == 2)
+    else if (objectType == 2) // Extra Life
     {
         spawnedObject.mainColor = GREEN;
         spawnedObject.size = 45.f;
@@ -86,6 +86,7 @@ Object SpawnObject(Vector2d spawnPoint, int objectType)
 
 Player SpawnPlayer(Vector2d spawnPoint)
 {
+    //Make changes to player here
     Player spawnedPlayer;
     spawnedPlayer.position = spawnPoint;
     spawnedPlayer.acceleration = 25.f;
