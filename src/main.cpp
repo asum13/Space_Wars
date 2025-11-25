@@ -1,4 +1,3 @@
-#include <iostream>
 #include <raylib.h>
 
 #include <headers/Vector2d.h>
@@ -6,6 +5,7 @@
 #include <headers/Object.h>
 #include <headers/Functions.h>
 
+#include <iostream>
 #include <vector>
 
 using namespace std;
